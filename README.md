@@ -16,6 +16,12 @@ url - URL to crawl
 levels - maximum levels to crawl from starting URL
 ```
 
+----
+
+### Preview:
+
+[!crawler preview](https://i.ibb.co/j4PDcwB/crawler.png)
+
 ### Improvements:
 
 - Visit only unique links
