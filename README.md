@@ -20,7 +20,7 @@ levels - maximum levels to crawl from starting URL
 
 ### Preview:
 
-[!crawler preview](https://i.ibb.co/j4PDcwB/crawler.png)
+![crawler preview](https://i.ibb.co/j4PDcwB/crawler.png)
 
 ### Improvements:
 
