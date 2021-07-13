@@ -65,7 +65,7 @@ class CrawlerSwarm:
             links = crawler.get_links_from_content(content)
             print(f"{' ' * crawler.level * OUTPUT_NESTING_FACTOR} [bold]{crawler.base_url}[/bold]")
             for link in links:
-                print(f"{' ' * crawler.level * OUTPUT_NESTING_FACTOR} [grey82]{[crawler.level]} - {link}[/grey82]")
+                print(f"{' ' * crawler.level * OUTPUT_NESTING_FACTOR} [grey42]{[crawler.level]} - {link}[/grey42]")
                 # Stopping condition for crawling
                 if child_crawler_level <= self.max_level:
                     res.append(
