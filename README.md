@@ -1,3 +1,21 @@
+Concurrent web crawler in Python 3. Powered by `BeautifulSoup` and `requests`. Crawls a website for all non-relative links and queues those links for further crawling until a user-defined 'level' of crawling is reached (or you get bored of waiting for the crawler to finish).
+
+## Setup:
+
+- Clone repo locally: `git clone REPO_URL`
+- **Optional:** Create a virtual environment: `python -m venv env`
+- Install requirements: `pip install -r requirements.txt`
+
+- Running unittests: `python -m unittest`
+- Running the crawler:
+```
+python crawler.py [--help] --url=URL --levels=LEVELS
+
+help - displays help message
+url - URL to crawl
+levels - maximum levels to crawl from starting URL
+```
+
 ### Improvements:
 
 - Visit only unique links
