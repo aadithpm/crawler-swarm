@@ -31,4 +31,4 @@ levels - maximum levels to crawl from starting URL
     - A console application is the fastest to develop but a web application might present this information in a more organized and navigable format
 
 - Tests
-    - Can never have enough tests. `crawler_swarm` especially does not have good coverage at all.
+    - Can never have enough tests. `crawler_swarm`'s crawler processing logic does not have tests at all, for example.
