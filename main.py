@@ -15,16 +15,20 @@ def main() -> None:
     parser.add_argument("--help", action='store_true')
     parser.add_argument("--url", type=str)
     parser.add_argument("--levels", type=int)
+    parser.add_argument("--indent", action='store_true')
     args = vars(parser.parse_args())
-    help_flag, url, levels = args['help'], args['url'], args['levels']
+    help_flag, url, levels, indent = args['help'], args['url'], args['levels'], args["indent"]
 
     if help_flag:
         print(HELP_MESSAGE)
         sys.exit(2)
 
     if url:
-        crawler = Crawler(url) if not levels else Crawler(url, levels)
+        crawler = Crawler(url, 0)
         crawler_swarm = CrawlerSwarm([crawler])
+        if levels is not None:
+            crawler_swarm.max_level = levels
+        crawler_swarm.indent = indent
         crawler_swarm.process_crawlers()
         sys.exit(0)
 

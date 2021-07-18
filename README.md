@@ -9,12 +9,15 @@ Concurrent web crawler in Python 3. Powered by `BeautifulSoup` and `requests`. C
 - Running unittests: `python -m unittest`
 - Running the crawler:
 ```
-python crawler.py [--help] --url=URL --levels=LEVELS
+python crawler.py [--help] --url=URL --levels=LEVELS --indent
 
 help - displays help message
 url - URL to crawl
 levels - maximum levels to crawl from starting URL
+indent - print with/without indentation, defaults to unindented
 ```
+
+----
 
 ### Improvements:
 

@@ -3,7 +3,7 @@ import logging
 from constants import DEFAULT_CRAWLER_MAX_LEVEL, OUTPUT_NESTING_FACTOR
 from crawler import Crawler
 from rich import print
-from typing import List
+from typing import List, NewType
 
 
 class CrawlerSwarm:
@@ -14,7 +14,8 @@ class CrawlerSwarm:
     def __init__(
         self,
         crawlers: List[Crawler] = [],
-        max_level: int = DEFAULT_CRAWLER_MAX_LEVEL
+        max_level: int = DEFAULT_CRAWLER_MAX_LEVEL,
+        indent: bool = False
     ) -> None:
         """
         Args:
@@ -25,6 +26,7 @@ class CrawlerSwarm:
         """
         self.crawlers = crawlers
         self.max_level = max_level
+        self.indent = indent
 
     def __add_crawler__(self, crawler: Crawler) -> None:
         """Adds crawler to the swarm
@@ -61,11 +63,12 @@ class CrawlerSwarm:
         res = []
         child_crawler_level = crawler.level + 1
         content = crawler.get_url_content(crawler.base_url)
+        nesting_factor = OUTPUT_NESTING_FACTOR if self.indent else 0
         if content:
             links = crawler.get_links_from_content(content)
-            print(f"{' ' * crawler.level * OUTPUT_NESTING_FACTOR} [bold]{crawler.base_url}[/bold]")
+            print(f"{' ' * crawler.level * nesting_factor} [bold]{crawler.base_url}[/bold]")
             for link in links:
-                print(f"{' ' * crawler.level * OUTPUT_NESTING_FACTOR} [grey42]{[crawler.level]} - {link}[/grey42]")
+                print(f" {' ' * crawler.level * nesting_factor} [grey42]{[crawler.level]} - {link}[/grey42]")
                 # Stopping condition for crawling
                 if child_crawler_level <= self.max_level:
                     res.append(
@@ -91,3 +94,6 @@ class CrawlerSwarm:
                     future = executor.submit(self.run_crawler, crawler)
                     child_crawlers = future.result()
                     self.add_crawlers(child_crawlers)
+
+    def __str__(self):
+        return f"CrawlerSwarm: crawlers: {self.crawlers}, max_level: {self.max_level}, indent: {self.indent}"

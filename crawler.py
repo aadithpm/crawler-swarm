@@ -85,3 +85,6 @@ class Crawler:
             bool: true if link is valid absolute link
         """
         return href and (href.startswith("http") or href.startswith("https"))
+
+    def __str__(self):
+        return f"Crawler: level: {self.level}, base_url: {self.base_url}"
