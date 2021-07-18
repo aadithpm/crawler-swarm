@@ -1,9 +1,10 @@
 import concurrent.futures
 import logging
+import threading
 from constants import DEFAULT_CRAWLER_MAX_LEVEL, OUTPUT_NESTING_FACTOR
 from crawler import Crawler
 from rich import print
-from typing import List, NewType
+from typing import List
 
 
 class CrawlerSwarm:
@@ -60,6 +61,7 @@ class CrawlerSwarm:
         Returns:
             List[Crawler]: child crawlers for links in this crawler's page
         """
+        self.logger.debug(f"{threading.current_thread().name} is crawling {crawler.base_url}..")
         res = []
         child_crawler_level = crawler.level + 1
         content = crawler.get_url_content(crawler.base_url)
@@ -88,12 +90,12 @@ class CrawlerSwarm:
             crawlers_to_run = self.crawlers[:]
             self.crawlers.clear()
             with concurrent.futures.ThreadPoolExecutor(
-                max_workers=5
+                max_workers=5,
+                thread_name_prefix="CrawlerSwarm"
             ) as executor:
-                for crawler in crawlers_to_run:
-                    future = executor.submit(self.run_crawler, crawler)
-                    child_crawlers = future.result()
-                    self.add_crawlers(child_crawlers)
+                futures = [executor.submit(self.run_crawler, i) for i in crawlers_to_run]
+                for future in concurrent.futures.as_completed(futures):
+                    self.add_crawlers(future.result())
 
     def __str__(self):
         return f"CrawlerSwarm: crawlers: {self.crawlers}, max_level: {self.max_level}, indent: {self.indent}"
